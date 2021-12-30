@@ -1,4 +1,5 @@
 const URL = "https://restcountries.com/v3.1/";
+let sumOfAllPopulations, totalCountries, averageOfAllPopulations;
 
 $(document).ready(function () {
   const loadDataFromServer = (url) => {
@@ -15,6 +16,7 @@ $(document).ready(function () {
     totalPopulation,
     averagePopulation
   ) => {
+    $(".results__summary").empty();
     const cardElement = document.createElement("div");
     const cardBodyElement = document.createElement("div");
     const cardTitleElement = document.createElement("h5");
@@ -49,6 +51,7 @@ $(document).ready(function () {
   };
 
   const createTable = (tableHeading1, tableHeading2, startOfClassName) => {
+    $(`.results__${startOfClassName}-table`).empty();
     $(`.results__${startOfClassName}-table`).append(
       ` <table class="table">
           <thead class="table-light">
@@ -64,7 +67,6 @@ $(document).ready(function () {
 
   const createTablesRows = (tableId, dataArray) => {
     let tableRows = "";
-
     tableId.includes("citizens")
       ? (tableRows = getDataForCitizensTable(dataArray))
       : (tableRows = getDataForRegionTable(dataArray));
@@ -143,7 +145,6 @@ $(document).ready(function () {
   };
 
   $("#getAllCountries").click(async () => {
-    let sumOfAllPopulations, totalCountries, averageOfAllPopulations;
     await loadDataFromServer(`${URL}all`).then((data) => {
       totalCountries = data.length;
       sumOfAllPopulations = getSumOfPopulation(data);
@@ -153,12 +154,67 @@ $(document).ready(function () {
         sumOfAllPopulations,
         averageOfAllPopulations
       );
-      //   createTable("Country Name", "Number of citizens", "citizens");
-      //   createTablesRows("citizens-table-body", data);
+      createTable("Country Name", "Number of citizens", "citizens");
+      createTablesRows("citizens-table-body", data);
       createTable("Region", "Number of countries", "region");
       createTablesRows("region-table-body", data);
     });
   });
+
+  $("#get-country-button").click(async (e) => {
+    e.preventDefault();
+    let countryName = $("#form__country-name-input").val();
+    await loadDataFromServer(`${URL}name/${countryName}`).then((data) => {
+      totalCountries = data.length;
+      sumOfAllPopulations = getSumOfPopulation(data);
+      averageOfAllPopulations = sumOfAllPopulations / totalCountries;
+      displayOverallStatistics(
+        totalCountries,
+        sumOfAllPopulations,
+        averageOfAllPopulations
+      );
+      createTable("Country Name", "Number of citizens", "citizens");
+      createTablesRows("citizens-table-body", data);
+      createTable("Region", "Number of countries", "region");
+      createTablesRows("region-table-body", data);
+    });
+  });
+
+  //   const groupByCurrency = (dataArray) => {
+  //     let groupedByArray = [];
+  //     groupedByArray.push({
+  //       region: "Europe",
+  //       totalCountriesInRegion: dataArray.filter(
+  //         (countryRegion) => countryRegion.region === "Europe"
+  //       ).length,
+  //     });
+  //     groupedByArray.push({
+  //       region: "Asia",
+  //       totalCountriesInRegion: dataArray.filter(
+  //         (countryRegion) => countryRegion.region === "Asia"
+  //       ).length,
+  //     });
+  //     groupedByArray.push({
+  //       region: "Americas",
+  //       totalCountriesInRegion: dataArray.filter(
+  //         (countryRegion) => countryRegion.region === "Americas"
+  //       ).length,
+  //     });
+  //     groupedByArray.push({
+  //       region: "Oceania",
+  //       totalCountriesInRegion: dataArray.filter(
+  //         (countryRegion) => countryRegion.region === "Oceania"
+  //       ).length,
+  //     });
+  //     groupedByArray.push({
+  //       region: "Africa",
+  //       totalCountriesInRegion: dataArray.filter(
+  //         (countryRegion) => countryRegion.region === "Africa"
+  //       ).length,
+  //     });
+
+  //     return groupedByArray;
+  //   };
 });
 
 /** *

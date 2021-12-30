@@ -19,17 +19,39 @@
         </h1>
     </header>
     <main>
-        <section class="section-form">
-            <div class="form-button__all">
-                <button type="button" id="getAllCountries" class="btn btn-outline-primary">Primary</button>
-            </div>
-        </section>
-        <section class="section-results">
-            <div class="results__summary"></div>
-            <div class="results__citizens-table"></div>
-            <div class="results__region-table"></div>
+        <div class="container">
+            <section class="section-form">
+                <div class="row">
+                    <div class="form-button__all">
+                        <button type="button" id="getAllCountries" class="btn btn-outline-primary">Get all
+                            countries</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7 offset-3">
+                        <form class="row g-3">
+                            <div class="col-auto mb-3">
+                                <label for="form__country-name-input" class="form-label">Country name</label>
+                                <input type="text" class="form-control" id="form__country-name-input"
+                                    placeholder="Enter a country name">
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" id="get-country-button"
+                                    class="btn btn-primary mb-3">Serch</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <section class="section-results">
+                <div class="results results__summary"></div>
+                <div class="row results__tables">
+                    <div class="col-md-5 mr-2 results results__citizens-table"></div>
+                    <div class="col-md-5 results results__region-table"></div>
+                </div>
 
-        </section>
+            </section>
+        </div>
     </main>
 
 </body>
