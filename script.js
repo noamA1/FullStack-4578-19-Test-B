@@ -1,5 +1,10 @@
 const URL = "https://restcountries.com/v3.1/";
 let sumOfAllPopulations, totalCountries, averageOfAllPopulations;
+const Europe = "Europe",
+  Asia = "Asia",
+  Americas = "Americas",
+  Oceania = "Oceania",
+  Africa = "Africa";
 
 $(document).ready(function () {
   const loadDataFromServer = (url) => {
@@ -51,8 +56,8 @@ $(document).ready(function () {
   };
 
   const createTable = (tableHeading1, tableHeading2, startOfClassName) => {
-    $(`.results__${startOfClassName}-table`).empty();
-    $(`.results__${startOfClassName}-table`).append(
+    $(`#results__${startOfClassName}-table`).empty();
+    $(`#results__${startOfClassName}-table`).append(
       ` <table class="table">
           <thead class="table-light">
                 <th scope="col">#</th>
@@ -103,33 +108,33 @@ $(document).ready(function () {
   const groupBy = (dataArray) => {
     let groupedByArray = [];
     groupedByArray.push({
-      region: "Europe",
+      region: Europe,
       totalCountriesInRegion: dataArray.filter(
-        (countryRegion) => countryRegion.region === "Europe"
+        (countryRegion) => countryRegion.region === Europe
       ).length,
     });
     groupedByArray.push({
-      region: "Asia",
+      region: Asia,
       totalCountriesInRegion: dataArray.filter(
-        (countryRegion) => countryRegion.region === "Asia"
+        (countryRegion) => countryRegion.region === Asia
       ).length,
     });
     groupedByArray.push({
-      region: "Americas",
+      region: Americas,
       totalCountriesInRegion: dataArray.filter(
-        (countryRegion) => countryRegion.region === "Americas"
+        (countryRegion) => countryRegion.region === Americas
       ).length,
     });
     groupedByArray.push({
-      region: "Oceania",
+      region: Oceania,
       totalCountriesInRegion: dataArray.filter(
-        (countryRegion) => countryRegion.region === "Oceania"
+        (countryRegion) => countryRegion.region === Oceania
       ).length,
     });
     groupedByArray.push({
-      region: "Africa",
+      region: Africa,
       totalCountriesInRegion: dataArray.filter(
-        (countryRegion) => countryRegion.region === "Africa"
+        (countryRegion) => countryRegion.region === Africa
       ).length,
     });
 
@@ -164,6 +169,7 @@ $(document).ready(function () {
   $("#get-country-button").click(async (e) => {
     e.preventDefault();
     let countryName = $("#form__country-name-input").val();
+
     await loadDataFromServer(`${URL}name/${countryName}`).then((data) => {
       totalCountries = data.length;
       sumOfAllPopulations = getSumOfPopulation(data);
@@ -179,47 +185,4 @@ $(document).ready(function () {
       createTablesRows("region-table-body", data);
     });
   });
-
-  //   const groupByCurrency = (dataArray) => {
-  //     let groupedByArray = [];
-  //     groupedByArray.push({
-  //       region: "Europe",
-  //       totalCountriesInRegion: dataArray.filter(
-  //         (countryRegion) => countryRegion.region === "Europe"
-  //       ).length,
-  //     });
-  //     groupedByArray.push({
-  //       region: "Asia",
-  //       totalCountriesInRegion: dataArray.filter(
-  //         (countryRegion) => countryRegion.region === "Asia"
-  //       ).length,
-  //     });
-  //     groupedByArray.push({
-  //       region: "Americas",
-  //       totalCountriesInRegion: dataArray.filter(
-  //         (countryRegion) => countryRegion.region === "Americas"
-  //       ).length,
-  //     });
-  //     groupedByArray.push({
-  //       region: "Oceania",
-  //       totalCountriesInRegion: dataArray.filter(
-  //         (countryRegion) => countryRegion.region === "Oceania"
-  //       ).length,
-  //     });
-  //     groupedByArray.push({
-  //       region: "Africa",
-  //       totalCountriesInRegion: dataArray.filter(
-  //         (countryRegion) => countryRegion.region === "Africa"
-  //       ).length,
-  //     });
-
-  //     return groupedByArray;
-  //   };
 });
-
-/** *
- * currencies: obj
- * region: string
- * population: number
- * name: obj
- */

@@ -40,3 +40,8 @@ form {
 #form__country-name-input {
   width: 80%;
 }
+
+.card {
+  text-align: center;
+  padding-top: 15px;
+}
